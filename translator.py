@@ -2,7 +2,6 @@ import os
 import yaml
 import requests
 
-# Function to translate text using Google Translate API
 def translate_text(text, target_language="en"):
     url = "https://translate.googleapis.com/translate_a/single"
     params = {
@@ -21,7 +20,6 @@ def translate_text(text, target_language="en"):
     else:
         raise Exception(f"API Error: {response.status_code} - {response.text}")
 
-# Function to translate YAML file
 def translate_yaml(input_file, output_file, target_language="en"):
     with open(input_file, 'r', encoding='utf-8') as file:
         data = yaml.safe_load(file)
@@ -43,9 +41,7 @@ def translate_yaml(input_file, output_file, target_language="en"):
 
     print(f"Translated: {input_file} -> {output_file}")
 
-# Main function
 def main():
-    # Get user input for target language and directories
     target_language = input("Enter the target language code (e.g., 'en' for English, 'az' for Azerbaijani): ").strip()
     locale_dir = input("Enter the path to the directory containing .yml files: ").strip()
     output_dir = input("Enter the output directory for translated files: ").strip()
@@ -54,7 +50,6 @@ def main():
 
     translated_list_file = os.path.join(output_dir, "translated_files.txt")
 
-    # Load already translated files
     if os.path.exists(translated_list_file):
         with open(translated_list_file, 'r') as f:
             translated_files = set(f.read().splitlines())
@@ -74,8 +69,6 @@ def main():
                 try:
                     translate_yaml(input_file, output_file, target_language)
                     translated_files.add(file)
-
-                    # Save the name of the translated file
                     with open(translated_list_file, 'a') as f:
                         f.write(file + "\n")
 
